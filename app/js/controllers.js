@@ -5,40 +5,43 @@
 var pokerControllers = angular.module('pokerControllers', []);
 
 pokerControllers.controller('PokerHomeCtrl', ['$scope',
-  function($scope) {
-    $scope.cards = [2,3,4,5,6];
-    $scope.game = 'Poker';
-  }]);
+    function($scope) {
+        $scope.cards = [2,3,4,5,6];
+        $scope.game = 'Poker';
+    }]);
 
 pokerControllers.controller('PokerRoomCtrl', ['$scope', 'pokerConfig',
-  function($scope, pokerConfig) {
+    function($scope, pokerConfig) {
 
-    $scope.reset = function() {
-      $scope.imagePath = pokerConfig.imagePath;
-      $scope.imageExt = pokerConfig.imageExt;
+        $scope.reset = function() {
+            $scope.imagePath = pokerConfig.imagePath;
+            $scope.imageExt = pokerConfig.imageExt;
 
-      $scope.shuffleCards = Shuffle(pokerConfig.cardsArr).slice();
-      $scope.tableCards = [];
-      for (var i = 0; i < 3; i++) {
-        $scope.tableCards.push($scope.shuffleCards.pop());
-      }
-      $scope.tableCards.push(pokerConfig.emptyCard, pokerConfig.emptyCard);
-      //console.log($scope.tableCards.length);
-    };
+            $scope.shuffleCards = Shuffle(pokerConfig.cardsArr).slice();
+            $scope.tableCards = [];
+            for (var i = 0; i < 3; i++) {
+                $scope.tableCards.push($scope.shuffleCards.pop());
+            }
+            $scope.tableCards.push(pokerConfig.emptyCard, pokerConfig.emptyCard);
+            console.log($scope.tableCards.length);
 
-    $scope.next = function() {
-      for (var i = 0, length = $scope.tableCards.length; i < length; i++) {
-        if ($scope.tableCards[i] == pokerConfig.emptyCard) {
-          $scope.tableCards[i] = $scope.shuffleCards.pop();
-          break;
+            $scope.pokerTable = pokerConfig.pokerTable;
+            $scope.pokerDealer = pokerConfig.pokerDealer;
+        };
+
+        $scope.next = function() {
+            for (var i = 0, length = $scope.tableCards.length; i < length; i++) {
+                if ($scope.tableCards[i] == pokerConfig.emptyCard) {
+                    $scope.tableCards[i] = $scope.shuffleCards.pop();
+                    break;
+                }
+                if (i == length - 1) {
+                    alert('Gana esta mano: xxxxx. Y se lleva: XX,XX €');
+                }
+            }
+            //console.log($scope.tableCards);
         }
-        if (i == length - 1) {
-          alert('finish game');
-        }
-      }
-      //console.log($scope.tableCards);
-    }
 
-    $scope.reset();
+        $scope.reset();
 
-  }]);
+    }]);
