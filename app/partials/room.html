@@ -1,12 +1,23 @@
-<h1 class="skewed"><span>My Poker Room</span></h1>
+<h1 class="skewed"><span>Timba de Poker</span></h1>
+<!-- <h2 class="skewed"><span>(Texas Holdem)</span></h2> -->
 <div><span><br/><br/><br/></span></div>
-<div class="background"><span><br/><br/><br/><br/><br/><br/><br/><br/><br/></span>
+<div class="background"><span><br/><br/><br/><br/><br/><br/></span>
     <ul id="navlist">
         <li ng-repeat="card in tableCards track by $index"><a href="#"><img class="card" ng-src="{{imagePath + card + imageExt}}"></a></li>
     </ul>
     <button ng-click="next()">Carta</button>
-    <button ng-click="reset()">Fin</button>
 </div>
+<div>
+    <ul type="none">
+        <h2>Jugadores</h2>
+        <h3><u>Nombre - Céntimos</u></h3>
+        <li ng-repeat="user in users">
+            <h4>{{user}} - {{moneys[$index]}} <!-- - {{cards[$index]}} --> <img class="card-user" ng-repeat="card in cards[$index] track by $index" ng-src="{{imagePath + card + imageExt}}"></h4>
+        </li>
+    </ul>
+</div>
+<a ng-click="reload()">Recargar</a>
+<button ng-click="reset()">Repartir</button>
 <div>
     <!-- <span><img class="centered" ng-src="{{pokerTable}}">
         <ul id="navlist">
@@ -14,7 +25,6 @@
         </ul>
     </span> -->
 </div>
-
 <div>
     <!-- <button ng-click="next()">Next card</button> -->
 </div>
