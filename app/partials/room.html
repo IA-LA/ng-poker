@@ -1,13 +1,13 @@
-<h1 class="skewed"><span>{{name}}</span> <span>{{version}}</span></h1>
+<h2 class="skewed" ng-show="myTitle === true"><span>{{name}}</span> <span>{{version}}</span></h2>
 <!-- <h2 class="skewed"><span>(Texas Holdem)</span></h2> -->
-<div><span><br/></span></div>
+<div ng-show="myTitle === true"><span><br/></span></div>
 <div class="background">
     <br/><h4 class="headline">TABLE<br/>{{money}} &cent;</h4><br/><br/>
     <ul id="navlist">
         <li ng-repeat="card in tableCards track by $index"><img class="card" ng-src="{{imagePath + card + imageExt}}"></li>
     </ul>
     <br/>
-    <button ng-click="initHand(); shuffleCards(); dealTable(); dealPlayers(); dealHand();">Baraja, reparte Mesa, Jugadores y Dealer</button>
+    <button ng-click="initHand(); shuffleCards(); dealTable(); dealPlayers(); dealHand(); myTitle=false"">Baraja, reparte Mesa, Jugadores y Dealer</button>
     <button ng-click="dealCardTable()">Carta</button>
 </div>
 <div>

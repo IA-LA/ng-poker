@@ -25,11 +25,19 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
 
             console.log('INICIALIZA');
 
+            //Variables de la Vista
+            // Título
+            $scope.myTitle = true;
+            $scope.myHand = true;
+            $scope.myCard = false;
+            $scope.myMenu = false;
+
             // Variables de Tiempo
             //TODO Duplicar apuesta if($scope.time) {$scope.bid *= 2;}
             $scope.initialTime = new Date();
             console.log('INICIO TIEMPO', $scope.initialTime);
 
+            // Variables de Mano
             // Manos de una partida
             $scope.nHands = 0;
 
@@ -312,6 +320,10 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
                 }*/
 
             }
+
+            // Comunica con la Vista
+            // Carta en la Mesa
+            $scope.myCard = !player;
 
         };
 
@@ -809,7 +821,15 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
                     $scope.players[j].bid = 0;
                     $scope.myMoney = 0;
                 }
+                if($scope.players[j].money === 0){
+                    $scope.players[j].as = -1;
+                }
             }
+
+            // Comunica con la Vista
+            // Reinicia una nueva Mano
+            $scope.myHand = true;
+
         };
 
         $scope.initTurn = function()
@@ -881,20 +901,37 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
 
         $scope.sendEmail = function(carta1, carta2){
             try{
+                // Objeto Outlook
                 var theApp = new ActiveXObject("Outlook.Application");
-                var theMailItem = theApp.CreateItem(0); // value 0 = MailItem
-                theMailItem.to = ('test@gmail.com');
-                theMailItem.Subject = ('Cartas');
-                theMailItem.Body = ('Instrucciones y Cartas adjuntas');
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\README.txt");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.png");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.jpg");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.gif");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\large_2c.png");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
-                theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\Svg-cards-2.0.svg");
-                theMailItem.display();
+
+                // Jugadores
+                for (var j = 0; j < $scope.players.length; j++) {
+                    console.log('EMAIL REPARTE CARTAS', $scope.players[j]);
+
+                    if($scope.players[j].as !== -1){
+                        // Envía Email
+                        var theMailItem = theApp.CreateItem(0); // value 0 = MailItem
+                        theMailItem.to = ($scope.players[j].email);
+                        theMailItem.Subject = ('Cartas Mano: ' + $scope.nHands);
+                        theMailItem.Body = ('Van las Instrucciones, configuración, imágenes y tus Cartas adjuntas');
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\README.txt");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\partials\\bets.json");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\Svg-cards-2.0.svg");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\table.png");
+                        if($scope.players[j].dealer === 1){
+                            theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.png");
+                            theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.jpg");
+                            theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\dealer.gif");
+                        }
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\" + $scope.players[j].cards[0][0] + ".png");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\" + $scope.players[j].cards[0][1] + ".png");
+                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
+                        theMailItem.display();
+                    }
+                }
             }
             catch (err) {
                 alert(err.message);

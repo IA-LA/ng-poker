@@ -19,6 +19,10 @@ pokerApp.config(['$routeProvider',
         templateUrl: 'partials/room.html',
         controller: 'PokerRoomCtrl'
       }).
+        when('/room1', {
+            templateUrl: 'partials/room1.html',
+            controller: 'PokerRoomCtrl'
+        }).
       otherwise({
         redirectTo: '/home'
       })
