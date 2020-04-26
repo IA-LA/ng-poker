@@ -1,0 +1,103 @@
+<h1 class="skewed" ng-show="myTitle === true"><span>{{name}}</span> <span>{{version}}</span></h1>
+<!-- <h2 class="skewed"><span>(Texas Holdem)</span></h2> -->
+<div ng-show="myTitle === true"><span><br/></span></div>
+<div class="background">
+    <br/><h4 class="headline">BANK<br/>{{money}} &cent;</h4><br/><br/>
+    <ul id="navlist">
+        <li ng-repeat="card in tableCards track by $index"><img class="card" ng-src="{{imagePath + card + imageExt}}"></li>
+    </ul>
+    <br/>
+    <button ng-click="initHand(); shuffleCards(); dealTable(); dealPlayers(); dealHand(); sendEmail(); myTitle=false; myHand=false" ng-show="myHand === true">Baraja, reparte Mesa, Jugadores y Dealer</button>
+    <span class="headlinesoft" style="color: yellow" ng-show="myHand === false && myCard === false && myMenu === false">COMPROBAD MENSAJE DE CORREO ELECTRONICO: <i style="color: black">Mano {{nHands}}</i></span>
+    <button ng-click="dealCardTable()" ng-show="myCard === true">Carta</button>
+</div>
+<div>
+    <ul type="none">
+        <table align="center">
+            <th colspan="4"><b>JUGADORES</b></th>
+            <tr><td><b>Nombre</b></td><td><b>Saldo</b></td><td><b>Apuesta</b></td><td><b>Controles</b> <i>(Mano {{nHands}})</i></td></tr>
+            <tr ng-repeat="player in players track by $index">
+                <td>
+                    <img class="dealer-player" ng-if="player.dealer == 1 || (myTitle === true && $index === 2)" ng-src="{{pokerDealer}}">
+                    <!-- <button ng-if="$index === 0">CI</button>
+                    <button ng-if="$index === 1">MC</button> -->
+                    <span ng-if="player.dealer == 0 && (myTitle === true && $index !== 2)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    {{player.name}}
+                    <img class="card-player" ng-repeat="card in player.cards[$index-$index] track by $index" ng-src="{{imagePath + card + imageExt}}" ng-show="myTitle === true">
+                </td>
+                <td>
+                    {{player.money}}
+                </td>
+                <td>
+                    {{player.hand}}
+                </td>
+                <td>
+                    <input ng-model="myBet" ng-value="" size="2" placeholder="0" value="0" ng-show="player.as === 0"/>
+                    <button ng-click="bet($index, player.name, (myBet !== undefined ? myBet : 0)); myBet=0" ng-show="player.as === 0">Voy</button>
+                    <button ng-click="turn($index, player.name, maxHand); player.as = 1" ng-if="player.as === 0">No voy</button>
+                    <button ng-click="initDrop($index, player); player.as = -2" ng-if="player.as === 0">Salir</button>
+                    <!--
+                    <label for="apuestas">Apuesta:</label>
+                    <select id="apuestas">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="40">30</option>
+                        <option value="80">80</option>
+                    </select>
+                    -->
+                    <!-- PLAYERS INFO -->
+                    <span class="headlinesoft" style="color: darkblue" ng-if="player.as === -2">¿ELIMINAR?
+                        <button ng-click="drop($index, player); turn($index-1, player.name, maxHand)" ng-if="player.as === -2 && myHand === false">SI</button>
+                        <button ng-click="drop($index, player)" ng-if="player.as === -2 && myHand === true">SI</button>
+                        <button ng-click="player.as = 0" ng-if="player.as === -2">NO</button>
+                    </span>
+                    <span class="headlinesoft" style="color: red" ng-if="player.as === -1">FUERA DE JUEGO
+                        <button ng-click="drop($index, player); turn($index-1, player.name, maxHand)" ng-if="player.as === -1">SI</button>
+                        <button ng-click="player.as = 0" ng-if="player.as === -1 && myHand === false">NO</button>
+                        <button ng-click="player.as = 10" ng-if="player.as === -1 && myHand === true">NO</button>
+                    </span>
+                    <span class="headlinesoft" style="color: yellow" ng-if="player.as === 1">TIRO MIS CARTAS</span>
+                    <span class="headlinesoft" style="color: lawngreen" ng-if="player.as === 2">VOY CON LA MINIMA</span>
+                    <span class="headlinesoft" style="color: black" ng-if="player.as === 3">ESTOY EN LO MAS ALTO</span>
+                    <span class="headlinesoft" style="color: dodgerblue" ng-if="player.as === 4">ESPERANDO MI TURNO</span>
+                    <span class="headlinesoft" style="color: red" ng-if="player.as === 5">ALL IN</span>
+                    <span class="headlinesoft" style="color: darkorange" ng-if="player.as === 6">IGUALO</span>
+
+                    <!-- PLAYERS WINNERS -->
+                    <span class="headlinesoft" style="color: navy" ng-if="player.as === 10">
+                        <img class="card-player" ng-repeat="card in player.cards[$index-$index] track by $index" ng-src="{{imagePath + card + imageExt}}">
+                        <input ng-model="myMoney" ng-value="" size="2" placeholder="{{money}}" value="{{money}}" ng-show="player.as === 10"/>
+                        <button ng-click="dealBet($index, player.name, (myMoney !== undefined ? myMoney : money)); myMoney=0" ng-show="player.as === 10">Gana</button>
+                    </span>
+                    <span class="headlinesoft" style="color: navy" ng-if="player.as === 100"> FAROLERO!!!
+                        <input ng-model="myMoney" ng-value="" size="2" placeholder="{{money}}" value="{{money}}" ng-show="player.as === 100"/>
+                        <button ng-click="dealBet($index, player.name, (myMoney !== undefined ? myMoney : money)); myMoney=0" ng-show="player.as === 100">Gana</button>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </ul>
+    <a ng-click="reload()" ng-show="false">Recargar</a>
+    <button ng-click="dealPlayers()" ng-show="false">Repartir</button>
+    <button ng-click="shuffleCards(); dealTable(); dealPlayers(); dealHand();" ng-show="false">Baraja, reparte Mesa, Jugadores y Dealer</button>
+    <button ng-click='sendMail("foo@bar.com","Mano nº 0","Mail Body Message", cards[$index][0], cards[$index][1])' ng-show="false">Mail</button>
+    <button ng-click="sendEmail()">eMail</button>
+    <a href="mailto:me@me.com" ng-show="false">email me here!</a>
+
+</div>
+<div ng-show="false">
+    <!-- <span><img class="centered" ng-src="{{pokerTable}}">
+        <ul id="navlist">
+            <li ng-repeat="card in tableCards track by $index"><a href="#"><img class="card" ng-src="{{imagePath + card + imageExt}}"></a></li>
+        </ul>
+    </span> -->
+</div>
+<div ng-show="false">
+    <!-- <button ng-click="next()">Next card</button> -->
+</div>
+<div ng-show="false">
+    <!-- <button ng-click="reset()">New game</button> -->
+</div>
+<div greet ng-show="false">
+    Hola: {{prueba}}{{receiver}}
+</div>
