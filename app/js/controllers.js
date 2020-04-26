@@ -27,6 +27,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
 
             //Variables de la Vista
             // Título
+            // Comunica con la Vista
             $scope.myTitle = true;
             $scope.myHand = true;
             $scope.myCard = false;
@@ -171,9 +172,10 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
                 if (i === length - 1) {
                     alert('¿Quién gana esta mano. Y se lleva los ' + $scope.money + ' céntimos de €?' +
                           '\n                                            ;-)                        ');
+                    break;
                 }
                 // Pone fin a la mano
-                if (i >= length - 2) {
+                if (i === length - 2) {
 
                     // Jugadores Activos
                     var jugadoresActivos = 0;
@@ -183,6 +185,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
                     console.log('REPARTE CARTA MESA', jugadoresActivos);
 
                     // Finaliza la Mano
+                    if(jugadoresActivos > 0)
                         $scope.finishHand(jugadoresActivos);
                 }
                 // Continua la Mano
@@ -200,26 +203,22 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
 
             console.log('INICIA JUGADORES');
 
-            // Inicia Jugador
+            // ¿Habemus Player?
+            var player = false;
+
+            // Inicia Jugador que abre la Mano
             for (var j = 0; j < $scope.players.length; j++) {
                 // Oportunidad de apuesta
                 if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1) && ($scope.players[j].as !== 5)){
                     $scope.players[j].as = 0;
+                    player = true;
                     break;
                 }
             }
 
-            // Jugadores Activos
-            var jugadoresActivos = 0;
-
-            jugadoresActivos = $scope.activePlayers();
-
-            console.log('INICIA JUGADORES', jugadoresActivos);
-            // Si no hay suficientes jugadores activos
-            // Finaliza la Mano
-            if(jugadoresActivos <= 1){
-                $scope.finishHand(jugadoresActivos);
-            }
+            // Comunica con la Vista
+            // Sigue la Mano
+            $scope.myCard = !player;
 
         };
 
@@ -291,7 +290,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             // Busca el primero que apuesta
             for (var i = index + 1; i < $scope.players.length; i++) {
                 // Oportunidad de ver la apuesta
-                if(($scope.players[i].as !== -1) && ($scope.players[i].as !== 1) && ($scope.players[i].as !== 5) && ($scope.players[i].hand <= maxHand)){
+                if(($scope.players[i].as !== -1) && ($scope.players[i].as !== 1) && ($scope.players[i].hand <= maxHand)){
                     $scope.players[i].as = 0;
                     // Habemus Player
                     player = true;
@@ -304,7 +303,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             if(!player){
                 for (var j = 0; j < index; j++) {
                     // Oportunidad de ver la apuesta
-                    if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1) && ($scope.players[j].as !== 5) && ($scope.players[j].hand < maxHand)){
+                    if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1) && ($scope.players[j].hand < maxHand)){
                         $scope.players[j].as = 0;
                         // Habemus Player
                         player = true;
@@ -322,7 +321,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             }
 
             // Comunica con la Vista
-            // Carta en la Mesa
+            // Sigue la Mano
             $scope.myCard = !player;
 
         };
@@ -335,17 +334,22 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
 
             // Revisa Jugadores
             for (var j = 0; j < $scope.players.length; j++) {
-                console.log('JUGADORES ACTIVOS', j);
-                // Oportunidad de apuesta
-                if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1) && ($scope.players[j].as !== 5)){
+                console.log('JUGADORES ACTIVOS', $scope.players[j].as, j, jugadoresActivos);
+                // Jugadores FUERA DE JUEGO y TIRO MIS CARTAS
+                if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1) && ($scope.players[j].as <= 10)){
                     jugadoresActivos += 1;
                 }
             }
             return jugadoresActivos;
         };
 
+        $scope.activatePlayers = function(index, player) {
+            console.log('JUGADORES ACTIVADOS', index, player, $scope.players.length);
+
+        };
+
         $scope.deactivatePlayers = function(index, player) {
-            console.log('JUGADORES INACTIVOS', index, player, $scope.players.length);
+            console.log('JUGADOR INACTIVADO', index, player, $scope.players.length);
 
             // Jugadores Activos
             var jugadoresActivos = {};
@@ -829,6 +833,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             // Comunica con la Vista
             // Reinicia una nueva Mano
             $scope.myHand = true;
+            $scope.myCard = false;
 
         };
 
@@ -925,10 +930,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
                         }
                         theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
                         theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\" + $scope.players[j].cards[0][0] + ".png");
-                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
-                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
                         theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\" + $scope.players[j].cards[0][1] + ".png");
-                        theMailItem.Attachments.Add("C:\\Users\\FJ\\WebstormProjects\\ng-poker\\app\\img\\empty.png");
                         theMailItem.display();
                     }
                 }
