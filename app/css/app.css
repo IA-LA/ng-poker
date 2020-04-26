@@ -18,9 +18,16 @@ small{
   height: 147px;
 }
 
-.card-user {
-    width: 60px;
-    height: 88px;
+/* v 0.0.2 */
+.card-player {
+  width: 60px;
+  height: 88px;
+}
+
+/* v 0.0.2 */
+.dealer-player {
+  width: 30px;
+  height: 30px;
 }
 
 .skewed {
@@ -46,9 +53,9 @@ small{
   inset 0 2.3em 0 #888,
   inset 0 2.5em 0 #666;
   content: '';
-  height: 3em;
+  height: 2.5em;
   position: absolute;
-  top: 0em;
+  top: -0.7em;
   width: 3.5em;
   z-index: -1;
 }
@@ -64,10 +71,10 @@ small{
   background: #666;
   box-shadow: 0 0 0 .2em #ffe;
   color: #ffe;
-  padding: 1em;
+  padding: .2em;
   position: relative;
-  text-shadow: 1px 2px 0 #666,
-  2px 3px 0 #888;
+  text-shadow: 1px 2px 0 #888,
+  2px 3px 0 black;
   text-transform: uppercase;
 }
 
@@ -79,14 +86,13 @@ small{
 
 #navlist li
 {
-  display: inline table;
+  display: inline;
   list-style-type: none;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 2px;
+  padding-left: 0px;
 }
 
-/* v0.1 */
-
+/* v 0.0.2 */
 .background {
   background-image: url('../img/table.png');
   /* width:900px; */
@@ -95,4 +101,44 @@ small{
   background-repeat: no-repeat;
   /*background-attachment: fixed;*/
   background-position: center;
+}
+
+/* v 0.0.2 */
+table, th , td {
+    text-align:center;
+    border: 1px solid darkgreen;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+/* v 0.0.2 */
+table tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+/* v 0.0.2 */
+table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* v 0.0.2 */
+.headline {
+    display: inline-block;
+    font: 2em/1 impact, sans-serif;
+    margin-top: 1em;
+    position: relative;
+    color: white;
+    text-shadow: 1px 2px 0 #888,
+    2px 3px 0 #666;
+    text-transform: uppercase;
+}/* v 0.0.2 */
+
+.headlinesoft {
+    display: inline-block;
+    font: 1.3em/1 impact, sans-serif;
+    position: relative;
+    color: red;
+    text-shadow: 1px 2px 0 #888,
+    2px 3px 0 #666;
+    text-transform: uppercase;
 }

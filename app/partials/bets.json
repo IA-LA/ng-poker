@@ -1,0 +1,48 @@
+{
+  "name": "Timba-Poker",
+  "version": "0.0.2",
+  "bid": 20,
+  "time": 30,
+  "users": [
+    {
+    "name": "Fulano",
+    "money": 500,
+    "bank": -500,
+    "email": "Fulano@mail.com",
+    "dealer": 0,
+    "hand": 0,
+    "bid": 0,
+    "as": 0
+    },
+    {
+      "name": "Mengano",
+      "money": 500,
+      "bank": -500,
+      "email": "Mengano@mail.com",
+      "dealer": 0,
+      "hand": 0,
+      "bid": 0,
+      "as": 0
+    },
+    {
+      "name": "Zutano",
+      "money": 500,
+      "bank": -500,
+      "email": "Zutano@mail.com",
+      "dealer": 0,
+      "hand": 0,
+      "bid": 0,
+      "as": 0
+    },
+    {
+      "name": "Hermano",
+      "money": 500,
+      "bank": -500,
+      "email": "Hermano@mail.com",
+      "dealer": 0,
+      "hand": 0,
+      "bid": 0,
+      "as": 0
+    }
+  ]
+}

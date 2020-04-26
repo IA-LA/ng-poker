@@ -1,5 +1,6 @@
 <h1>Entrada Timba</h1>
 
-<a href="#/room">Timba 1 {{game}}</a>
+<a href="#/room">Timba 0 PRUEBAS!!!</a><br/>
+<a href="#/room1">Timba 1 {{game}}</a>
 
-<div ng-repeat="card in cards"><a href="#">Timba {{card}} (juego) </a></div>
+<div ng-repeat="card in cards track by $index"><a href="#/room{{card}}">Timba {{card}} (juego) </a></div>
