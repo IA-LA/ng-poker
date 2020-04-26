@@ -34,7 +34,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             $scope.myMenu = false;
 
             // Variables de Tiempo
-            //TODO Duplicar apuesta if($scope.time) {$scope.bid *= 2;}
+            // Duplicar apuesta if($scope.time) {$scope.bid *= 2;}
             $scope.initialTime = new Date();
             console.log('INICIO TIEMPO', $scope.initialTime);
 
@@ -428,7 +428,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         {
             console.log('REPARTE MANO');
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             //Mano Inicial de juego
             if ($scope.dealer === undefined){
                 // Asigna Dealer al último
@@ -544,13 +544,13 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         $scope.finishHand = function(jugadoresActivos) {
             console.log('FINALIZA MANO');
 
-            //TODO Repartir ganancias $scope.players[j]
+            // Repartir ganancias $scope.players[j]
             // Revisa todos los Jugadores
             for (var j = 0; j < $scope.players.length; j++) {
                 // Oportunidad de apuesta
                 if(($scope.players[j].as !== -1) && ($scope.players[j].as !== 1)){
                     console.log('FINALIZA MANO', $scope.players[j].as);
-                    // TODO Show cards or not
+                    // TODO Show cards or not at the end of the Hand !!!
                     if(jugadoresActivos <= 1){
                         $scope.players[j].as = 100;
                     }
@@ -566,7 +566,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             console.log('INICIA APUESTA');
 
             // Tiempo
-            //TODO Duplicar apuesta if($scope.time) {$scope.bid *= 2;}
+            // Duplicar apuesta if($scope.time) {$scope.bid *= 2;}
             var actualTime = new Date();
             var interval = (actualTime - $scope.initialTime) / 1000 / 60; //En minutos
             if (interval > $scope.time) {
@@ -630,7 +630,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             console.log('AVANZA APUESTA', index, name, bid, $scope.players[index].bank);
 
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             // Convierte a entero
             bid = Number(bid);
 
@@ -812,7 +812,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
             // Convierte a entero
             bid = Number(bid);
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             // Reparte ganancias
             $scope.players[index].money += bid;
 
@@ -841,7 +841,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         {
             console.log('INICIA TURNO');
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             //Avanzar repartidor de cartas
 
             //Vaciar la Banca, Apuesta y Mano
@@ -861,7 +861,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         $scope.turn = function(index, name, maxHand) {
             console.log('AVANZA TURNO', index, name, maxHand);
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             //Avanzar repartidor de cartas
 
             //Vaciar la Banca, Apuesta y Mano
@@ -887,7 +887,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         {
             console.log('ABANDON MANO', index, name);
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             //Avanzar repartidor de juego
 
             // Actualiza Jugadores en Juego
@@ -899,7 +899,7 @@ pokerControllers.controller('PokerRoomCtrl', ['$rootScope', '$scope', '$http', '
         {
             location.reload($scope);
 
-            /* TODO v 0.0.2 */
+            /* v 0.0.2 */
             $scope.sendMail("foo@bar.com","Mail Subject","Mail Body Message");
 
         };
